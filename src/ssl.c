@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/socket.h>		/* basic socket definitions */
 #include <netdb.h>
 #include <netinet/in.h>
