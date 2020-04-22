@@ -231,7 +231,6 @@ protocol_udp_listen(protocol_t *p, void *options)
 {
 	udp_private_data *pd = (udp_private_data *)p->_protocol_p;
 	socklen_t len;
-	char hostname[NI_MAXHOST];
 	char msg[128];
 	
 	if ((pd->sock = socket(AF_INET6, SOCK_DGRAM, 0)) < 0) {

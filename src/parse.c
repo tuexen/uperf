@@ -276,6 +276,7 @@ parse(char *buffer, struct symbol *list)
 	return (0);
 }
 
+#if 0
 static void
 print_symbols(struct symbol *list) {
 	while (list) {
@@ -283,6 +284,8 @@ print_symbols(struct symbol *list) {
 		list = list->next;
 	}
 }
+#endif
+
 void
 print_txn_t(txn_t *t)
 {
@@ -329,12 +332,14 @@ print_group_t_recurse(group_t *t)
 	}
 }
 
+#if defined(DEBUG) || defined(TEST_PARSE)
 static void
 print_workorder_t(workorder_t *w) {
 	int i;
 	for (i = 0; i < w->ngrp; i++)
 		print_group_t_recurse(&w->grp[i]);
 }
+#endif
 
 static int
 string2int(char *value)
