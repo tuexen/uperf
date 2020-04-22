@@ -71,29 +71,6 @@ static int load_engine(const char *engine_id);
 static SSL_CTX *ctx;
 
 
-/*
- * Openssl is not threadsafe if we do not provide the following
- * two callbacks
- */
-
-static pthread_mutex_t *ssl_locks;
-
-static void
-locking_function(int mode, int n, char *file, int line)
-{
-	if (mode & CRYPTO_LOCK) {
-		(void) pthread_mutex_lock(&(ssl_locks[n]));
-	} else {
-		(void) pthread_mutex_unlock(&(ssl_locks[n]));
-	}
-}
-
-static unsigned long
-id_function(void)
-{
-	return ((unsigned long) MY_THREAD_ID());
-}
-
 static int
 my_ssl_error(SSL *ssl, int sz)
 {
@@ -166,13 +143,6 @@ ssl_init(void *arg)
 	}
 	if (ctx == NULL)
 		return (1);
-
-	ssl_locks = malloc(CRYPTO_num_locks() * sizeof (pthread_mutex_t));
-	for (i = 0; i < CRYPTO_num_locks(); i++) {
-		pthread_mutex_init(&ssl_locks[i], 0);
-	}
-	CRYPTO_set_id_callback((unsigned long (*)())id_function);
-	CRYPTO_set_locking_callback((void (*)())locking_function);
 
 	/*
 	 * We also register an atexit function to cleanup the ENGINE
