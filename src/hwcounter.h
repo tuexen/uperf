@@ -59,8 +59,8 @@ typedef struct {
 	int		init_status;
 }hwcounter_t;
 
-int hwcounter_init();
-int hwcounter_fini();
+int hwcounter_init(void);
+int hwcounter_fini(hwcounter_t *));
 int hwcounter_validate_events(char *, char *);
 int hwcounter_finilwp(hwcounter_t *);
 int hwcounter_snap(hwcounter_t *, int);
